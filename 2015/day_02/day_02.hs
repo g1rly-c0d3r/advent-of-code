@@ -5,7 +5,7 @@ import Data.List
 
 strToInt:: [[String]] -> [[Int]]
 strToInt [] = []
-strToInt (x:xs) = (map (read::String->Int) x):(strToInt xs)
+strToInt xs = map (map (read::String->Int)) xs
 
 
 smallestSideArea::[Int] -> Int
@@ -24,9 +24,9 @@ main = do
     -- get each present
     let dims = (strToInt . map (wordsBy (=='x')) . lines) rawDims
         -- part 1
-        area = map (\[l,w,h] -> 2*l*w + 2*w*h + 2*h*l + (smallestSideArea [l,w,h])) dims
+        area = map (\[l,w,h] -> 2*l*w + 2*w*h + 2*h*l + smallestSideArea [l,w,h]) dims
         -- part 2
-        ribs = map (\[l,w,h] -> l*w*h + (smallestSidePerim [l,w,h])) dims
+        ribs = map (\[l,w,h] -> l*w*h + smallestSidePerim [l,w,h]) dims
 
     -- part 1
     print $ sum area

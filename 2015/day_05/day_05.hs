@@ -5,13 +5,13 @@ import Data.List (isInfixOf)
 -------------------------------- part 1 ------------------------------------------------------------
 hasDoubleLetters::String->Bool
 hasDoubleLetters [] = False
-hasDoubleLetters (x:[]) = False
-hasDoubleLetters (x:xs) = x==(head xs) || (hasDoubleLetters xs)
+hasDoubleLetters [x] = False
+hasDoubleLetters (x:xs) = x == head xs || hasDoubleLetters xs
 
 numVowels::String->Int
 numVowels [] = 0
 numVowels (x:xs) 
-    | x `elem` "aeiouAEIOU" = 1 + (numVowels xs)
+    | x `elem` "aeiouAEIOU" = 1 + numVowels xs
     | otherwise = 0 + numVowels xs
 
 
@@ -20,7 +20,7 @@ isNice xs
     -- invalid substrings
     | isInfixOf "ab" xs || isInfixOf "cd" xs || isInfixOf "pq" xs || isInfixOf "xy" xs  = "Invalid"
     -- double letters
-    | (hasDoubleLetters xs) && (numVowels xs >= 3) = "nice"
+    | hasDoubleLetters xs && (numVowels xs >= 3) = "nice"
     -- nothing
     | hasDoubleLetters xs = "Not enough vowels"
     | numVowels xs >= 3 = "No double letters"
